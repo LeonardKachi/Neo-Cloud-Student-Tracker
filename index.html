@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCloud | Student Productivity Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --neo-blue: #4da6ff;
+            --neo-dark-blue: #0077cc;
+            --light-blue: #e6f2ff;
+            --white: #ffffff;
+            --light-text: #f8fafc;
+            --dark-bg: #0f172a;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --gradient: linear-gradient(135deg, #4da6ff 0%, #0077cc 100%);
+        }
+
+        [data-theme="dark"] {
+            --card-bg: #1e293b;
+            --text-dark: #f8fafc;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --light-blue: #1a365d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-blue);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.4s ease;
+            line-height: 1.6;
+        }
+
+        [data-theme="dark"] body {
+            background-color: var(--dark-bg);
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--white);
+            color: var(--text-dark);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-img {
+            height: 200px;
+        }
+
+        .logo-container {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--neo-dark-blue);
+        }
+
+        .slogan {
+            font-size: 0.9rem;
+            color: var(--neo-dark-blue);
+            opacity: 0.8;
+            margin-top: 0.2rem;
+        }
+
+        .theme-toggle {
+            background: var(--neo-blue);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background: var(--neo-dark-blue);
+            transform: rotate(30deg);
+        }
+
+        /* Main Content */
+        .container {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(77, 166, 255, 0.2);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        h2 {
+            color: var(--neo-dark-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--neo-blue);
+            box-shadow: 0 0 0 3px rgba(77, 166, 255, 0.2);
+        }
+
+        [data-theme="dark"] input, 
+        [data-theme="dark"] select, 
+        [data-theme="dark"] textarea {
+            background-color: #334155;
+            border-color: #475569;
+            color: white;
+        }
+
+        button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0) 60%
+            );
+            transform: rotate(30deg);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(77, 166, 255, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-outline {
+            background: none;
+            border: 2px solid var(--neo-blue);
+            color: var(--neo-blue);
+        }
+
+        [data-theme="dark"] .btn-outline {
+            color: white;
+            border-color: white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(77, 166, 255, 0.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Course Catalog */
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .course-category {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(77, 166, 255, 0.2);
+        }
+
+        .course-category h3 {
+            color: var(--neo-dark-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .course-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: rgba(77, 166, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .course-item:hover {
+            background: rgba(77, 166, 255, 0.1);
+        }
+
+        .course-code {
+            font-weight: bold;
+            color: var(--neo-blue);
+            min-width: 50px;
+        }
+
+        .course-name {
+            flex: 1;
+            padding: 0 1rem;
+        }
+
+        .course-duration {
+            color: var(--neo-dark-blue);
+            font-size: 0.9rem;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--neo-dark-blue);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: auto;
+            position: relative;
+        }
+
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: #b3d9ff;
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--neo-blue);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 1.5rem 1rem;
+            }
+            
+            .logo-container {
+                justify-content: center;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo-container">
+            <img src="neocloud.png" alt="NeoCloud Logo" class="logo-img">
+            <div>
+                <div class="logo-text"></div>
+                <div class="slogan">Transforming Africa Through Tech Education</div>
+            </div>
+        </div>
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Login Section -->
+        <div class="card" id="loginSection">
+            <h2><i class="fas fa-sign-in-alt"></i> Student Portal Login</h2>
+            <input type="text" id="nctId" placeholder="Enter your NCT-ID (e.g. NCT-WEB-1001)">
+            <button onclick="handleLogin()"><i class="fas fa-unlock-alt"></i> Login</button>
+            <p style="margin-top: 1rem; text-align: center;">
+                Don't have an account? 
+                <a href="#" onclick="showRegistration()" style="color: var(--neo-blue); font-weight: 600;">Register here</a>
+            </p>
+        </div>
+
+        <!-- Registration Section -->
+        <div class="card hidden" id="registrationSection">
+            <h2><i class="fas fa-user-plus"></i> Course Registration</h2>
+            <div class="courses-container" id="courseCatalog">
+                <!-- Course catalog will be dynamically inserted here -->
+            </div>
+            <div class="btn-group">
+                <button onclick="registerStudent()"><i class="fas fa-check-circle"></i> Complete Registration</button>
+                <button class="btn-outline" onclick="showLogin()"><i class="fas fa-arrow-left"></i> Back to Login</button>
+            </div>
+        </div>
+
+        <!-- Attendance Section -->
+        <div class="card hidden" id="attendanceSection">
+            <h2><i class="fas fa-user-graduate"></i> Student Dashboard</h2>
+            <div style="margin-bottom: 1.5rem;">
+                <p><strong>Name:</strong> <span id="studentName">John Doe</span></p>
+                <p><strong>Course:</strong> <span id="studentCourse">Full Stack Web Development</span></p>
+                <p><strong>NCT-ID:</strong> <span id="displayNctId">NCT-WEB-1001</span></p>
+                <p><strong>Status:</strong> <span id="studentStatus" style="color: var(--neo-blue);">Active</span></p>
+            </div>
+            <div class="btn-group">
+                <button onclick="recordAttendance('in')"><i class="fas fa-sign-in-alt"></i> Sign In</button>
+                <button onclick="recordAttendance('out')"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="card">
+            <h2><i class="fas fa-comment-alt"></i> Share Your Feedback</h2>
+            <textarea id="feedbackText" rows="4" placeholder="Your feedback helps us improve..."></textarea>
+            <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; cursor: pointer;">
+                <input type="checkbox" id="anonymousCheck" style="width: auto;"> 
+                Submit anonymously
+            </label>
+            <button onclick="submitFeedback()"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://leonardkachi.github.io/Portfolio-website" target="_blank">
+                    <i class="fas fa-globe"></i> Portfolio
+                </a>
+                <a href="mailto:Henryleo480@gmail.com">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+                <a href="tel:+2348142795186">
+                    <i class="fas fa-phone"></i> +2348142795186
+                </a>
+                <a href="https://techneo.ng/">
+                    <i class="fas fa-info-circle"></i> About NCT
+                </a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Obidiegwu Onyedikachi Henry Leonard | 
+                Cloud Security Architect • DevSecOps Engineer • Cloud Engineer
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const isDark = currentTheme === 'dark';
+            
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+            
+            // Save preference to localStorage
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Course Data
+        const courses = {
+            "WEB": {
+                name: "Full Stack Web Development",
+                duration: "6 months",
+                price: "₦250,000",
+                category: "web"
+            },
+            "FED": {
+                name: "Frontend Development (React/Vue)",
+                duration: "4 months",
+                price: "₦180,000",
+                category: "web"
+            },
+            "BED": {
+                name: "Backend Development (Node/Django)",
+                duration: "5 months",
+                price: "₦220,000",
+                category: "web"
+            },
+            "DSA": {
+                name: "Data Science Fundamentals",
+                duration: "4 months",
+                price: "₦300,000",
+                category: "data"
+            },
+            "ML": {
+                name: "Machine Learning",
+                duration: "6 months",
+                price: "₦350,000",
+                category: "data"
+            },
+            "AI": {
+                name: "Artificial Intelligence",
+                duration: "8 months",
+                price: "₦400,000",
+                category: "data"
+            },
+            "AWS": {
+                name: "Amazon Web Services",
+                duration: "3 months",
+                price: "₦280,000",
+                category: "cloud"
+            },
+            "AZR": {
+                name: "Microsoft Azure",
+                duration: "3 months",
+                price: "₦270,000",
+                category: "cloud"
+            },
+            "GCP": {
+                name: "Google Cloud Platform",
+                duration: "3 months",
+                price: "₦290,000",
+                category: "cloud"
+            },
+            "SEC": {
+                name: "Cybersecurity Essentials",
+                duration: "4 months",
+                price: "₦320,000",
+                category: "security"
+            },
+            "ETH": {
+                name: "Ethical Hacking",
+                duration: "5 months",
+                price: "₦380,000",
+                category: "security"
+            },
+            "PY": {
+                name: "Python Programming",
+                duration: "3 months",
+                price: "₦150,000",
+                category: "programming"
+            },
+            "JV": {
+                name: "Java Development",
+                duration: "4 months",
+                price: "₦200,000",
+                category: "programming"
+            },
+            "JS": {
+                name: "JavaScript Development",
+                duration: "3 months",
+                price: "₦170,000",
+                category: "programming"
+            }
+        };
+
+        // Mock Students Database
+        const mockStudents = {
+            "NCT-WEB-1001": {
+                name: "John Doe",
+                course: "Full Stack Web Development",
+                expiry: "December 31, 2025",
+                status: "Active"
+            },
+            "NCT-DSA-2001": {
+                name: "Jane Smith",
+                course: "Data Science Fundamentals",
+                expiry: "November 15, 2025",
+                status: "Active"
+            }
+        };
+
+        // Initialize Course Catalog
+        function initCourseCatalog() {
+            const catalog = document.getElementById('courseCatalog');
+            const categories = {
+                web: "Web Development",
+                data: "Data Science",
+                cloud: "Cloud Computing",
+                security: "Cybersecurity",
+                programming: "Programming"
+            };
+
+            for (const [catId, catName] of Object.entries(categories)) {
+                const categoryCourses = Object.entries(courses)
+                    .filter(([code, course]) => course.category === catId);
+
+                if (categoryCourses.length > 0) {
+                    const categoryEl = document.createElement('div');
+                    categoryEl.className = 'course-category';
+                    categoryEl.innerHTML = `
+                        <h3><i class="fas fa-${getCategoryIcon(catId)}"></i> ${catName}</h3>
+                        <div class="course-list" id="${catId}-courses"></div>
+                    `;
+                    catalog.appendChild(categoryEl);
+
+                    const courseList = document.getElementById(`${catId}-courses`);
+                    categoryCourses.forEach(([code, course]) => {
+                        const courseEl = document.createElement('div');
+                        courseEl.className = 'course-item';
+                        courseEl.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <input type="radio" name="selectedCourse" value="${code}" id="course-${code}" style="width: auto;">
+                                <label for="course-${code}" style="cursor: pointer; flex: 1;">
+                                    <span class="course-code">${code}</span>
+                                    <span class="course-name">${course.name}</span>
+                                </label>
+                            </div>
+                            <div>
+                                <span class="course-duration">${course.duration}</span>
+                                <div style="font-size: 0.8rem; color: var(--neo-blue);">${course.price}</div>
+                            </div>
+                        `;
+                        courseList.appendChild(courseEl);
+                    });
+                }
+            }
+        }
+
+        function getCategoryIcon(catId) {
+            const icons = {
+                web: 'code',
+                data: 'database',
+                cloud: 'cloud',
+                security: 'shield-alt',
+                programming: 'laptop-code'
+            };
+            return icons[catId] || 'book';
+        }
+
+        // View Navigation
+        function showRegistration() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registrationSection').classList.remove('hidden');
+            document.getElementById('attendanceSection').classList.add('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registrationSection').classList.add('hidden');
+            document.getElementById('attendanceSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        function showAttendance(nctId) {
+            const student = mockStudents[nctId];
+            if (student) {
+                document.getElementById('studentName').textContent = student.name;
+                document.getElementById('studentCourse').textContent = student.course;
+                document.getElementById('displayNctId').textContent = nctId;
+                document.getElementById('studentStatus').textContent = student.status;
+                
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('registrationSection').classList.add('hidden');
+                document.getElementById('attendanceSection').classList.remove('hidden');
+            }
+        }
+
+        // Core Functions
+        function handleLogin() {
+            const nctId = document.getElementById('nctId').value.trim().toUpperCase();
+            if (nctId in mockStudents) {
+                showAttendance(nctId);
+            } else {
+                alert("Invalid NCT-ID. Please check your ID or register if you're a new student.");
+            }
+        }
+
+        function registerStudent() {
+            const selectedCourse = document.querySelector('input[name="selectedCourse"]:checked');
+            if (!selectedCourse) {
+                alert("Please select a course");
+                return;
+            }
+
+            const courseCode = selectedCourse.value;
+            const course = courses[courseCode];
+            
+            // Generate mock NCT-ID
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            const nctId = `NCT-${courseCode}-${randomNum}`;
+            
+            // Add to mock database
+            mockStudents[nctId] = {
+                name: "New Student",
+                course: course.name,
+                expiry: new Date(new Date().setMonth(new Date().getMonth() + parseInt(course.duration))).toLocaleDateString(),
+                status: "Active"
+            };
+            
+            alert(`🎉 Registration Successful!\n\nYour NCT-ID: ${nctId}\nCourse: ${course.name}\nDuration: ${course.duration}\nPrice: ${course.price}\n\nPlease use this ID to login.`);
+            document.getElementById('nctId').value = nctId;
+            showLogin();
+        }
+
+        function recordAttendance(type) {
+            const nctId = document.getElementById('displayNctId').textContent;
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            const dateString = now.toLocaleDateString();
+            
+            alert(`✅ Attendance Recorded!\n\nStudent: ${nctId}\nAction: Signed ${type}\nTime: ${timeString}\nDate: ${dateString}`);
+            
+            // In real implementation, send to backend
+            console.log(`Attendance: ${nctId} ${type} at ${now.toISOString()}`);
+        }
+
+        function submitFeedback() {
+            const feedback = document.getElementById('feedbackText').value.trim();
+            if (!feedback) {
+                alert("Please enter your feedback before submitting");
+                return;
+            }
+            
+            const isAnonymous = document.getElementById('anonymousCheck').checked;
+            const nctId = isAnonymous ? "Anonymous" : document.getElementById('displayNctId')?.textContent || "Guest";
+            
+            // In real implementation, send to backend
+            console.log(`New feedback from ${nctId}: ${feedback.substring(0, 30)}...`);
+            
+            alert(`Thank you for your ${isAnonymous ? 'anonymous ' : ''}feedback! We appreciate your input.`);
+            document.getElementById('feedbackText').value = "";
+            document.getElementById('anonymousCheck').checked = false;
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            initCourseCatalog();
+            
+            // Check for demo mode
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('demo') === 'true') {
+                document.getElementById('nctId').value = "NCT-WEB-1001";
+                handleLogin();
+            }
+        };
+    </script>
+</body>
+</html>
